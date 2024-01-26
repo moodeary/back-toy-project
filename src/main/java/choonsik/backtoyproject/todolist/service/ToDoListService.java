@@ -1,6 +1,7 @@
 package choonsik.backtoyproject.todolist.service;
 
-import choonsik.backtoyproject.todolist.dto.ToDoListReqDto;
+import choonsik.backtoyproject.todolist.dto.ToDoListReqDto.ToDoListPatchDto;
+import choonsik.backtoyproject.todolist.dto.ToDoListReqDto.ToDoListSaveDto;
 import choonsik.backtoyproject.todolist.entity.ToDoList;
 import choonsik.backtoyproject.todolist.repository.ToDoListRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,13 @@ public class ToDoListService {
     private final ToDoListRepository toDoListRepository;
 
     @Transactional
-    public ToDoList todoSave(ToDoListReqDto.ToDoListSaveDto saveDto) {
+    public ToDoList todoSave(ToDoListSaveDto saveDto) {
         ToDoList toDoSave = new ToDoList(saveDto);
-        System.out.println("세이브 됨! ㅋㄷㅋㄷ");
         return toDoListRepository.save(toDoSave);
     }
 
     @Transactional
-    public ToDoList toDoPatch(Long todoId, ToDoListReqDto.ToDoListPatchDto patchDto) {
+    public ToDoList toDoPatch(Long todoId, ToDoListPatchDto patchDto) {
 
         ToDoList toDoList = toDoListRepository.findById(todoId).orElseThrow(() -> new RuntimeException("존재하지 않는 리뷰입니다."));
         toDoList.setTitle(patchDto.getTitle());

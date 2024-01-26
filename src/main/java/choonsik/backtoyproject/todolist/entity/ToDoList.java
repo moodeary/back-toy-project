@@ -1,6 +1,6 @@
 package choonsik.backtoyproject.todolist.entity;
 
-import choonsik.backtoyproject.todolist.dto.ToDoListReqDto;
+import choonsik.backtoyproject.todolist.dto.ToDoListReqDto.ToDoListSaveDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "todolist_tb")
+@Table(name = "todo_list")
 @Setter
 @Getter
 public class ToDoList {
@@ -37,7 +37,7 @@ public class ToDoList {
     @Column(nullable = false)
     private LocalDateTime updateAt;
 
-    public ToDoList(ToDoListReqDto.ToDoListSaveDto toDoListSaveDto) {
+    public ToDoList(ToDoListSaveDto toDoListSaveDto) {
         this.title = toDoListSaveDto.getTitle();
     }
 }
