@@ -17,6 +17,7 @@ public class ToDoListService {
     @Transactional
     public ToDoList todoSave(ToDoListReqDto.ToDoListSaveDto saveDto) {
         ToDoList toDoSave = new ToDoList(saveDto);
+        System.out.println("세이브 됨! ㅋㄷㅋㄷ");
         return toDoListRepository.save(toDoSave);
     }
 
@@ -26,7 +27,6 @@ public class ToDoListService {
         ToDoList toDoList = toDoListRepository.findById(todoId).orElseThrow(() -> new RuntimeException("존재하지 않는 리뷰입니다."));
         toDoList.setTitle(patchDto.getTitle());
         toDoList.setCompletion(patchDto.getCompletion());
-
         return toDoList;
     }
 
