@@ -20,14 +20,11 @@ public class MemberController {
 
     @PostMapping("/signUp")
     public ResponseEntity<?> SignUpMember(@RequestBody CreateMemberDto createMemberDto) {
-
-        System.out.println("회원가입 로직 탐" + createMemberDto.toString());
         return new ResponseEntity<>(memberService.createMember(createMemberDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public  ResponseEntity<?> LoginMember(@RequestBody CreateMemberDto createMemberDto) {
-        System.out.println("로그인 로직 탐");
         return new ResponseEntity<>(memberService.loginMember(createMemberDto), HttpStatus.OK);
     }
 }

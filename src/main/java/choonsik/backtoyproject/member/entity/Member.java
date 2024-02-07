@@ -1,27 +1,21 @@
 package choonsik.backtoyproject.member.entity;
 
 
-import choonsik.backtoyproject.member.dto.MemberReqDto;
+import choonsik.backtoyproject.common.BaseEntity.BaseEntity;
 import choonsik.backtoyproject.member.dto.MemberReqDto.CreateMemberDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "member")
+@Builder
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,24 +24,32 @@ public class Member {
     @Column(name = "loginId", nullable = false)
     private String loginId;
 
-    @Column(name = "nickName", nullable = false)
-    private String nickName;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "birthDay", nullable = false )
+    private String birthDay;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime updateAt;
 
     public Member (CreateMemberDto createMemberDto) {
 
         this.loginId = createMemberDto.getLoginId();
-        this.nickName = createMemberDto.getNickName();
+        this.name = createMemberDto.getName();
         this.password = createMemberDto.getPassword();
+        this.birthDay = createMemberDto.getBirthDay();
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", loginId='" + loginId + '\'' +
+                ", name='" + name + '\'' +
+                ", birthDay='" + birthDay + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

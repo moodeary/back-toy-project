@@ -1,8 +1,6 @@
 package choonsik.backtoyproject.member.dto;
 
-import choonsik.backtoyproject.todolist.entity.ToDoList;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 public class MemberResDto {
@@ -14,10 +12,11 @@ public class MemberResDto {
     @AllArgsConstructor
     public static class MemberResponseDto {
         private String loginId;
-        private String nickName;
         private String password;
+        private String name;
+        private String email;
+        private String birthDay;
         private LocalDateTime createAt;
         private LocalDateTime updateAt;
-
     }
 }
