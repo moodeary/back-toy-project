@@ -13,8 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -35,7 +35,6 @@ public class Member extends BaseEntity {
 
 
     public Member (CreateMemberDto createMemberDto) {
-
         this.loginId = createMemberDto.getLoginId();
         this.name = createMemberDto.getName();
         this.password = createMemberDto.getPassword();
