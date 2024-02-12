@@ -11,7 +11,7 @@ public class MemberResDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MemberResponseDto {
-        private String loginId;
+        private String username;
         private String password;
         private String name;
         private String email;

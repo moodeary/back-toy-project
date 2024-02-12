@@ -21,8 +21,11 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "loginId", nullable = false)
-    private String loginId;
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -30,25 +33,25 @@ public class Member extends BaseEntity {
     @Column(name = "birthDay", nullable = false )
     private String birthDay;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name= "role")
+    private String role;
+
 
 
     public Member (CreateMemberDto createMemberDto) {
-        this.loginId = createMemberDto.getLoginId();
+        this.username = createMemberDto.getUsername();
         this.name = createMemberDto.getName();
         this.password = createMemberDto.getPassword();
         this.birthDay = createMemberDto.getBirthDay();
+        this.role = createMemberDto.getRole();
     }
 
     @Override
     public String toString() {
         return "Member{" +
-                "id=" + id +
-                ", loginId='" + loginId + '\'' +
-                ", name='" + name + '\'' +
-                ", birthDay='" + birthDay + '\'' +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
