@@ -7,7 +7,7 @@ spring:
   jpa:
     open-in-view: false
     generate-ddl: true
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
   security:
@@ -16,3 +16,6 @@ spring:
       password: admin
   jwt:
     secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaqweaaaaaaaaaaabbbaa
+logging:
+  level:
+    root: DEBUG

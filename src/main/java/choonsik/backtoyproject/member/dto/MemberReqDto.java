@@ -22,6 +22,9 @@ public class MemberReqDto {
         private String birthDay;
         private String role;
 
+
+
+
         @Override
         public String toString() {
             return "CreateMemberDto{" +

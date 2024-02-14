@@ -41,6 +41,11 @@ public class Member extends BaseEntity {
     @Column(name = "refreshToken")
     private Date refreshToken;
 
+    public Member(Long id, String name, String role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+    }
 
     public Member (CreateMemberDto createMemberDto) {
         this.username = createMemberDto.getUsername();

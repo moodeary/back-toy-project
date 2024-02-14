@@ -4,7 +4,6 @@ import choonsik.backtoyproject.member.dto.MemberReqDto.CreateMemberDto;
 import choonsik.backtoyproject.member.entity.Member;
 import choonsik.backtoyproject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +42,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member loginMember() {
-
-        String username = "";
-        Member findMember = memberRepository.findByUsername(username).orElseThrow();
-
-        return findMember;
+    public Member findMember(String username) {
+        return memberRepository.findByUsername(username).orElseThrow();
     }
 }
