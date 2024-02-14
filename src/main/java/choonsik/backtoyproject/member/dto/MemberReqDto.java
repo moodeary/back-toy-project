@@ -1,8 +1,10 @@
 package choonsik.backtoyproject.member.dto;
 
+import jakarta.persistence.EntityListeners;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class MemberReqDto {
 
@@ -11,6 +13,7 @@ public class MemberReqDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @EntityListeners(AuditingEntityListener.class)
     public static class CreateMemberDto {
         private String username;
         private String password;
@@ -18,8 +21,6 @@ public class MemberReqDto {
         private String email;
         private String birthDay;
         private String role;
-        private LocalDateTime createAt;
-        private LocalDateTime updateAt;
 
         @Override
         public String toString() {
@@ -30,8 +31,6 @@ public class MemberReqDto {
                     ", email='" + email + '\'' +
                     ", birthDay='" + birthDay + '\'' +
                     ", role='" + role + '\'' +
-                    ", createAt=" + createAt +
-                    ", updateAt=" + updateAt +
                     '}';
         }
     }

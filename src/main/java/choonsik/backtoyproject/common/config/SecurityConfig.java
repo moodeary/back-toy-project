@@ -4,6 +4,7 @@ package choonsik.backtoyproject.common.config;
 import choonsik.backtoyproject.common.config.jwt.JwtFilter;
 import choonsik.backtoyproject.common.config.jwt.JwtUtil;
 import choonsik.backtoyproject.common.config.jwt.LoginFilter;
+import choonsik.backtoyproject.scheduler.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,6 +31,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationManager;
     private final JwtUtil jwtUtil;
+    private final RefreshTokenService refreshTokenService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,27 +44,25 @@ public class SecurityConfig {
                 .cors((cors)-> cors.configurationSource(apiConfigurationSource()))
 
                 // formLogin 방식
-                .formLogin((formLogin)-> formLogin.disable())
+                .formLogin(AbstractHttpConfigurer::disable)
 
                 // http basic 로그인 방식
-                .httpBasic((httpBasic)-> httpBasic.disable())
-
+                .httpBasic(AbstractHttpConfigurer::disable)
 
                 // url 마다 권한 설정
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers("/login","/","/signup","/getMember").permitAll()
+                        .requestMatchers("/login","/","/signup","/getMember","/test").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
 
 
-
                 .headers(headers -> headers
-                        .cacheControl(cache -> cache.disable())
+                        .cacheControl(HeadersConfigurer.CacheControlConfig::disable)
                 )
 
 
                 .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationManager), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationManager), jwtUtil, refreshTokenService), UsernamePasswordAuthenticationFilter.class)
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -87,7 +88,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000/","http://localhost:3000/"));
         configuration.addAllowedHeader("*");
         configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("access_token");
+        configuration.addExposedHeader("refresh_token");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Component
 public class JwtUtil {
 
 
 
-    private Key key;
+    private final Key key;
     public JwtUtil(@Value("${spring.jwt.secret}")String secret) {
 
         byte[] byteSecretKey = Decoders.BASE64.decode(secret);
@@ -35,15 +34,15 @@ public class JwtUtil {
     }
 
     public Boolean isExpired(String token) {
-
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
     public String createJwt(String username, String role, Long expiredMs) {
 
-        TimeZone seoulTimeZone = TimeZone.getTimeZone("Asia/Seoul");
         // 현재 시간 가져오기
         Date currentTime = new Date(System.currentTimeMillis());
+        // 토큰의 만료 시간 설정
+        Date expirationTime = new Date(currentTime.getTime() + expiredMs);
 
         Claims claims = Jwts.claims();
         claims.put("username", username);
@@ -52,7 +51,24 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(currentTime)
-                .setExpiration(new Date(currentTime.getTime() + expiredMs))
+                .setExpiration(expirationTime)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String createRefreshJwt(Long expiredMs) {
+
+        // 현재 시간 가져오기
+        Date currentTime = new Date(System.currentTimeMillis());
+        // 토큰의 만료 시간 설정
+        Date expirationTime = new Date(currentTime.getTime() + expiredMs);
+
+        Claims claims = Jwts.claims();
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(currentTime)
+                .setExpiration(expirationTime)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

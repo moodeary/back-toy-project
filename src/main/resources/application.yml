@@ -7,7 +7,7 @@ spring:
   jpa:
     open-in-view: false
     generate-ddl: true
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
   security:
@@ -15,4 +15,4 @@ spring:
       name: admin
       password: admin
   jwt:
-    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaqweaaaaaaaaaaabbbaa

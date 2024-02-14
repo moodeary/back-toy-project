@@ -1,11 +1,13 @@
 package choonsik.backtoyproject.member.entity;
 
 
-import choonsik.backtoyproject.common.BaseEntity.BaseEntity;
+import choonsik.backtoyproject.common.baseEntity.BaseEntity;
 import choonsik.backtoyproject.member.dto.MemberReqDto.CreateMemberDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.Date;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -36,6 +38,8 @@ public class Member extends BaseEntity {
     @Column(name= "role")
     private String role;
 
+    @Column(name = "refreshToken")
+    private Date refreshToken;
 
 
     public Member (CreateMemberDto createMemberDto) {

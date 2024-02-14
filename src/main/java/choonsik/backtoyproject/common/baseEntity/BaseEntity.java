@@ -1,4 +1,4 @@
-package choonsik.backtoyproject.common.BaseEntity;
+package choonsik.backtoyproject.common.baseEntity;
 
 
 import jakarta.persistence.*;

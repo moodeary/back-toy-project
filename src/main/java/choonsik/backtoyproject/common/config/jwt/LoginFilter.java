@@ -1,6 +1,8 @@
 package choonsik.backtoyproject.common.config.jwt;
 
 import choonsik.backtoyproject.common.config.userDetails.CustomUserDetails;
+import choonsik.backtoyproject.common.constants.Constants;
+import choonsik.backtoyproject.scheduler.service.RefreshTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,9 +24,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+
+        System.out.println("여기는 들어오나!?");
 
         String username = obtainUsername(request);
         String password = obtainPassword(request);
@@ -39,6 +44,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
+
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         String username = customUserDetails.getUsername();
@@ -49,11 +55,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, 60*60*10L);
+        String token = jwtUtil.createJwt(username, role, Constants.accessToken);
+        String refreshToken = jwtUtil.createRefreshJwt(Constants.refreshToken);
 
         System.out.println("로그인 성공");
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader("access_token", "Bearer " + token);
+        response.addHeader("refresh_token", "Bearer " + refreshToken);
+
+        refreshTokenService.saveRefreshToken(username);
     }
 
 

@@ -22,16 +22,13 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        //request에서 Authorization 헤더를 찾음
+        //request 에서 Authorization 헤더를 찾음
         String authorization= request.getHeader("Authorization");
 
         //Authorization 헤더 검증
         if (authorization == null || !authorization.startsWith("Bearer ")) {
 
-            System.out.println("token null");
-
             filterChain.doFilter(request, response);
-
             //조건이 해당되면 메소드 종료 (필수) = 다음 필터로 넘긴다.
             return;
         }
@@ -51,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        //토큰에서 username과 role 획득
+        //토큰에서 username 과 role 획득
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
@@ -61,7 +58,7 @@ public class JwtFilter extends OncePerRequestFilter {
         member.setPassword("TempPassword");
         member.setRole(role);
 
-        //UserDetails에 회원 정보 객체 담기
+        //UserDetails 에 회원 정보 객체 담기
         CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
         //스프링 시큐리티 인증 토큰 생성

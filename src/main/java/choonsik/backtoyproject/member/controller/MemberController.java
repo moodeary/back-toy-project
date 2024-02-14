@@ -37,4 +37,9 @@ public class MemberController {
     public ResponseEntity<?> admin() {
         return new ResponseEntity<>("admin controller", HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        return new ResponseEntity<>("admin controller", HttpStatus.OK);
+    }
 }
